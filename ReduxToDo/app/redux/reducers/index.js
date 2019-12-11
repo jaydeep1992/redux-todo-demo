@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
 
 // Imports: Reducers
-import countReducer from './Counter';
+import taskListReducer from './TaskList';
 
 // Redux: App Reducer
 const appReducer = combineReducers({
-  count: countReducer,
+  taskList: taskListReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -1,13 +1,13 @@
-import {createStore, applyMiddleware, compose} from 'redux';
-import createSagaMiddleware from 'redux-saga';
+import {createStore, combineReducers} from 'redux';
+import reducer from '../reduxsauce';
+import reduxStore from '../redux/reducers/TaskList';
 
-const sagaMiddleware = createSagaMiddleware();
-const middleWare = [sagaMiddleware];
-
-// Add middleware to redux store
-const middlewares = applyMiddleware(...middleWare);
-
-const store = createStore(compose(middlewares));
+const store = createStore(
+  combineReducers({
+    reducer,
+    reduxStore,
+  }),
+);
 
 // Enable persistence
 export default {store};

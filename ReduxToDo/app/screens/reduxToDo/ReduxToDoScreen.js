@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
   Container,
   Button,
@@ -9,20 +10,23 @@ import {
   Input,
   Left,
 } from 'native-base';
-// import Icon from 'react-native-vector-icons/dist/Ionicons';
 import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
+import {
+  addToDoList,
+  updateToDoList,
+  deleteToDoList,
+} from '../../redux/actions/TaskList';
 import styles from './styles/ReduxToDoScreenStyles';
 
 class ReduxToDoScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      taskName: '',
+    };
+    // console.log('this.props.task', this.props.taskList);
+  }
   render() {
-    const data = [
-      {key: 1, label: 'Label 1', leftLabel: 'Left 1', rightLabel: 'Right 1'},
-      {key: 2, label: 'Label 2', leftLabel: 'Left 2', rightLabel: 'Right 2'},
-      {key: 3, label: 'Label 3', leftLabel: 'Left 3', rightLabel: 'Right 3'},
-      {key: 4, label: 'Label 4', leftLabel: 'Left 4', rightLabel: 'Right 4'},
-      {key: 5, label: 'Label 5', leftLabel: 'Left 5', rightLabel: 'Right 5'},
-    ];
-
     return (
       <Container style={styles.headerFooter}>
         <Header style={styles.headerFooter}>
@@ -39,27 +43,33 @@ class ReduxToDoScreen extends Component {
             <Input
               placeholder="Type here..."
               placeholderTextColor="white"
+              onChangeText={taskName => this.setState({taskName})}
               style={styles.inputText}
             />
-            <Button style={styles.addButton}>
+            <Button style={styles.addButton} onPress={() => this.addTask()}>
               <Text>ADD</Text>
             </Button>
           </Item>
           <SwipeableFlatList
-            data={data}
+            data={this.props.taskList}
             renderItem={({item}) => (
-              <Text style={styles.itemList}>{item.label}</Text>
+              <Text
+                style={
+                  item.status ? styles.itemListLineThrough : styles.itemList
+                }>
+                {item.task}
+              </Text>
             )}
             renderLeft={({item}) => (
               <Text
-                onPress={() => alert(item.leftLabel)}
+                onPress={() => this.renderUpdateItem(item)}
                 style={styles.swipeCell}>
-                Edit
+                Update
               </Text>
             )}
             renderRight={({item}) => (
               <Text
-                onPress={() => alert(item.rightLabel)}
+                onPress={() => this.renderDeleteItem(item)}
                 style={styles.swipeCell}>
                 Delete
               </Text>
@@ -72,6 +82,28 @@ class ReduxToDoScreen extends Component {
       </Container>
     );
   }
+  addTask() {
+    this.props.addTask(this.state.taskName);
+  }
+  renderUpdateItem(item) {
+    this.props.updateTask(item.id);
+    console.log('renderEditItem:', item);
+  }
+  renderDeleteItem(item) {
+    // console.log('Item:: ', item);
+    this.props.deleteTask(item.id);
+  }
 }
 
-export default ReduxToDoScreen;
+const mapStateToProps = ({reduxStore}) => ({
+  taskList: reduxStore.taskList,
+});
+const mapDispatchToProps = dispatch => ({
+  addTask: task => dispatch(addToDoList(task)),
+  updateTask: key => dispatch(updateToDoList(key)),
+  deleteTask: key => dispatch(deleteToDoList(key)),
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReduxToDoScreen);

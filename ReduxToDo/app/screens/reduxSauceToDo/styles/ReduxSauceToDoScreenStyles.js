@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#555555',
     color: 'white',
   },
+  itemListLineThrough: {
+    height: 48,
+    backgroundColor: '#555555',
+    color: 'white',
+    textDecorationLine: 'line-through',
+  },
   swipeCell: {width: 100, color: 'white'},
   flatListBackground: {marginTop: 25},
 });

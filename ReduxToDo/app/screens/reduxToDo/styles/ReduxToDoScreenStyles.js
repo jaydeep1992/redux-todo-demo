@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   headerFooter: {
     backgroundColor: '#697689',
@@ -14,16 +14,22 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     backgroundColor: '#555555',
   },
-  reduxSauceBtn: {marginTop: 12},
-  inputText: {color: 'white'},
-  addButton: {backgroundColor: 'transparent'},
+  reduxSauceBtn: { marginTop: 12 },
+  inputText: { color: 'white' },
+  addButton: { backgroundColor: 'transparent' },
   itemList: {
     height: 48,
     backgroundColor: '#555555',
     color: 'white',
   },
-  swipeCell: {width: 100, color: 'white'},
-  flatListBackground: {marginTop: 25},
+  itemListLineThrough: {
+    height: 48,
+    backgroundColor: '#555555',
+    color: 'white',
+    textDecorationLine: 'line-through',
+  },
+  swipeCell: { width: 100, color: 'white' },
+  flatListBackground: { marginTop: 25 },
 });
 
 export default styles;
